@@ -3,6 +3,7 @@
 
 #include <linux/kernel.h>
 #include <linux/slab.h>
+#include <linux/of.h>
 #include <linux/soc/qcom/apr.h>
 #include <sound/soc.h>
 #include <sound/soc-dai.h>
@@ -791,6 +792,14 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
 	for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
 		if (cfg->channel_map[i])
 			intf_cfg->cfg.active_channels_mask |= BIT(i);
+
+	/* The shipped SM8650 ADSP firmware rejects WSA2 (lpaif type 7)
+	 * interface configs; the mask above already selects the WSA2
+	 * slots. Remove when a fixed topology stops declaring type 7.
+	 */
+	if (intf_cfg->cfg.lpaif_type == 7 &&
+	    of_machine_is_compatible("qcom,sm8650"))
+		intf_cfg->cfg.lpaif_type = 2;
 
 	p += ic_sz;
 
