@@ -13,6 +13,15 @@
 		#size-cells = <2>;
 		ranges;
 
+		/* Remote heap for the ADSP static (sensors) PD; reusable while idle */
+		adsp_rpc_remote_heap_mem: adsp-rpc-remote-heap {
+			compatible = "shared-dma-pool";
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			alignment = <0x0 0x400000>;
+			size = <0x0 0xc00000>;
+			reusable;
+		};
+
 
 		/* These are 3 types of reserved memory regions here:
 		 * 1. Firmware related regions which aren't shared with kernel.
