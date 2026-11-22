@@ -947,7 +947,7 @@ static const enum power_supply_property sm8550_bat_props[] = {
 };
 
 static const struct power_supply_desc sm8550_bat_psy_desc = {
-	.name = "battery",
+	.name = "qcom-battmgr-bat",
 	.type = POWER_SUPPLY_TYPE_BATTERY,
 	.properties = sm8550_bat_props,
 	.num_properties = ARRAY_SIZE(sm8550_bat_props),
